@@ -108,6 +108,20 @@ _main_blink:
 
     // ==========================================================================
     // initSysTick() code
+    //
+    //
+    // SysTick_BASE = 0xE000E010UL
+    // 
+    // The Systick Registers (@SysTick_BASE) are:
+    //
+    //  typedef struct
+    //  {
+    //    __IOM uint32_t CTRL;   // Offset: 0x000 (R/W)  SysTick Control and Status Register
+    //    __IOM uint32_t LOAD;   // Offset: 0x004 (R/W)  SysTick Reload Value Register
+    //    __IOM uint32_t VAL;    // Offset: 0x008 (R/W)  SysTick Current Value Register
+    //    __IM  uint32_t CALIB;  // Offset: 0x00C (R/ )  SysTick Calibration Register
+    //  } SysTick_Type; // @SysTick_BASE (Address 0xE000E010UL)
+    //
     // ==========================================================================
 	.section .text
     .align 4
@@ -127,21 +141,16 @@ _initSysTick:
 
     mov r1,#(1<<0) | (1<<1) | (1<<2)
     str r1,[r0,0x0] // CTRL
-
-    /*
-        typedef struct
-        {
-          __IOM uint32_t CTRL;   // Offset: 0x000 (R/W)  SysTick Control and Status Register
-          __IOM uint32_t LOAD;   // Offset: 0x004 (R/W)  SysTick Reload Value Register
-          __IOM uint32_t VAL;    // Offset: 0x008 (R/W)  SysTick Current Value Register
-          __IM  uint32_t CALIB;  // Offset: 0x00C (R/ )  SysTick Calibration Register
-        } SysTick_Type;
-    */
-
     pop {r0,r1,pc}
 
     // ==========================================================================
     // initLed()
+    //
+    // On the Eval Board the LED are assigned as follows:
+    //
+	// - Red LED connects to target MCU pin P0_10
+    // - Green LED connects to target MCU pin P0_27
+    // - Blue LED connects to target MCU pin P1_2
     // ==========================================================================
 	.section .text
     .align 4
@@ -153,16 +162,12 @@ _initLed:
     orr r1,#(0b11<<19)
     str r1,[r0, 0x200] // AHBCLKCTRL0
 
-// • Red LED connects to target MCU pin P0_10
-// • Green LED connects to target MCU pin P0_27
-// • Blue LED connects to target MCU pin P1_2
-
     // =================================================================================
     // RED and GREEN Led (@GPIO0)
     // =================================================================================
     ldr r0,=(GPIO_BASE + 0x0000)
 
-    ldr r2,=(( 1u<<10 ) | ( 1u<<27 ))
+    ldr r2,=(( 1ul<<10 ) | ( 1ul<<27 ))
 
     ldr r1,[r0, GPIO_PDOR_OFFSET] // Set Output data register
     orr r1,r2
@@ -177,7 +182,7 @@ _initLed:
     // =================================================================================
     ldr r0,=(GPIO_BASE +  0x2000)
 
-    mov r2,#(1u<<2)
+    mov r2,#(1ul<<2)
 
     ldr r1,[r0, GPIO_PDOR_OFFSET] // Set Output data register
     orr r1,r2
