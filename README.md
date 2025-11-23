@@ -1,14 +1,8 @@
-## Minemalistic Blinky in arm assembly
+# Minemalistic Blinky in arm assembly
 
 **Author:**
 
-Hans-Peter Beständig
-Kühbachstr. 8
-**81543 Munich**
-
-Germany
-
-mailto: hdusel@tangerine-soft.de
+Hans-Peter Beständig<br>Kühbachstr. 8<br>**81543 Munich**<p>Germany<p>mailto: hdusel@tangerine-soft.de
 
 ## Rationale
 
@@ -56,7 +50,7 @@ Afterward you'll get an elf binary `main_blink.elf`, a matching Intel HEX File (
 
 ## Appendix 
 
-## ### Overview
+### Overview
 
 #### `main_blink.s`
 
